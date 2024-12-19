@@ -118,6 +118,9 @@ WebService::Nominatim - Raku client for the OpenStreetMap Nominatim API
 
   my \n = WebService::Nominatim.new;
 
+  say n.search(query => 'Grand Central Station', :addressdetails).head.<address><road city state>.join(', ');
+  # East 42nd Street, City of New York, New York
+
   say n.search: 'Grand Central Station';
 
   say n.search: 'Main St', :limit(5);
@@ -131,7 +134,7 @@ WebService::Nominatim - Raku client for the OpenStreetMap Nominatim API
 
 =head1 DESCRIPTION
 
-This is an interface to OpenStreetMap's Nominatim API, L<https://nominatim.org|https://nominatim.org>.
+This is an interface to OpenStreetMap's Nominatim Geocoding API, L<https://nominatim.org|https://nominatim.org>.
 
 =head1 ATTRIBUTES
 
@@ -141,7 +144,8 @@ The base URL for the Nominatim API. Defaults to C<https://nominatim.openstreetma
 
 =head2 ua
 
-The L<HTTP::Tiny> user agent object. Defaults to a new instance of L<HTTP::Tiny> with the agent string set to C<Raku WebService::Nominatim>.
+The L<HTTP::Tiny|https://raku.land/zef:jjatria/HTTP::Tiny> user agent object. Defaults to a new instance
+of C<HTTP::Tiny> with the agent string set to C<Raku WebService::Nominatim>.
 
 =head2 email
 
