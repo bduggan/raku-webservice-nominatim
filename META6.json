@@ -8,7 +8,7 @@
   },
   "build-depends" : [ ],
   "depends" : [
-    "Log::Async"
+    "Log::Async", "HTTP::Tiny", "JSON::Fast"
   ],
   "description" : "Interface to the Nominatim geocoding service",
   "tags" : [
