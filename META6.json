@@ -1,0 +1,23 @@
+{
+  "name" : "WebService::Nominatim",
+  "authors" : [
+    "Brian Duggan"
+  ],
+  "provides" : {
+    "WebService::Nominatim" : "lib/WebService/Nominatim.rakumod"
+  },
+  "build-depends" : [ ],
+  "depends" : [
+    "Log::Async"
+  ],
+  "description" : "Interface to the Nominatim geocoding service",
+  "tags" : [
+    "geo"
+  ],
+  "license" : "MIT",
+  "raku" : "6.*",
+  "version" : "0.0.1",
+  "auth" : "zef:bduggan",
+  "source-url" : "git://github.com/bduggan/raku-webservice-nominatim.git"
+}
+
