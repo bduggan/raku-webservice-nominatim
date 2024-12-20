@@ -110,7 +110,7 @@ multi method search($query,
 
 =head1 NAME
 
-WebService::Nominatim - Raku client for the OpenStreetMap Nominatim API
+WebService::Nominatim - Client for the OpenStreetMap Nominatim API
 
 =head1 SYNOPSIS
 
@@ -118,19 +118,17 @@ WebService::Nominatim - Raku client for the OpenStreetMap Nominatim API
 
   my \n = WebService::Nominatim.new;
 
-  say n.search(query => 'Grand Central Station', :addressdetails).head.<address><road city state>.join(', ');
-  # East 42nd Street, City of New York, New York
+  say n.search('Grand Central Station').first.<name lat lon>;
+  # (Grand Central Terminal 40.75269435 -73.97725295036929)
 
-  say n.search: 'Grand Central Station';
+  my $geo = n.search: '221B Baker Street, London, UK';
+  my $geo = n.search: query => '221B Baker Street, London, UK';
+  my $geo = n.search: query => { street => '221B Baker Street', city => 'London', country => 'UK' };
+  say $geo.head.<lat lon>;
+  # (51.5233879 -0.1582367)
 
-  say n.search: 'Main St', :limit(5);
-
-  say n.search: '221B Baker Street, London, UK';
-  say n.search: query => '221B Baker Street, London, UK';
-  say n.search: query => { street => '221B Baker Street', city => 'London', country => 'UK' };
-
-  say n.search: 'Grand Place, Brussels, Belgium';
-  say n.search('Grand Place, Brussels',:format<geojson>,:raw);
+  say n.search: 'Grand Place, Brussels', :format<geojson>, :raw;
+  {"type":"FeatureCollection", ... 
 
 =head1 DESCRIPTION
 
@@ -142,24 +140,18 @@ This is an interface to OpenStreetMap's Nominatim Geocoding API, L<https://nomin
 
 The base URL for the Nominatim API. Defaults to C<https://nominatim.openstreetmap.org>.
 
-=head2 ua
-
-The L<HTTP::Tiny|https://raku.land/zef:jjatria/HTTP::Tiny> user agent object. Defaults to a new instance
-of C<HTTP::Tiny> with the agent string set to C<Raku WebService::Nominatim>.
-
 =head2 email
 
-The email address to use in the C<email> query parameter. This is optional, but recommended if you are
+The email address to use in the C<email> query parameter. Optional, but recommended if you are
 sending a lot of requests.
 
 =head2 debug
 
-If set to a true value, the C<debug> query parameter will be set to C<1> in all requests.
-In this case, the response will be HTML (not JSON).
+Optionally send send debug => 1 in search requests.  Responses will be HTML.
 
 =head2 dedupe
 
-If set to a true value, the C<dedupe> query parameter will be set to C<1> in search requests.
+Optionally send dedupe => 1 to search request.
 
 =head1 METHODS
 
