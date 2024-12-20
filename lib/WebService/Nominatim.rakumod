@@ -184,20 +184,39 @@ See L<https://nominatim.org/release-docs/develop/api/Search/> for details about 
 
   The format of the response. Defaults to C<jsonv2>.
 
-Other parameters are passed through to the API as query parameters:
+Other parameters -- see L<https://nominatim.org/release-docs/develop/api/Search/>
 
-  :$layer,
-  :$featureType,
-  Bool :$addressdetails,
-  Int :$limit = 1,
-  Bool :$extratags,
-  Bool :$namedetails,
-  :$accept-language,
-  :$countrycodes,
-  :$exclude_place_ids,
-  :$viewbox, Bool :$bounded,
-  Bool :$polygon_geojson, Bool :$polygon_kml, Bool :$polygon_svg, Bool :$polygon_text,
-  :$polygon_threshold
+=item C<:layer>
+
+=item C<:featureType>
+
+=item C<:addressdetails>
+
+=item C<:limit>
+
+=item C<:extratags>
+
+=item C<namedetails>
+
+=item C<:accept-language>
+
+=item C<:countrycodes>
+
+=item C<:exclude_place_ids>
+
+=item C<:viewbox>
+
+=item C<:bounded>
+
+=item C<:polygon_geojson>
+
+=item C<:polygon_kml>
+
+=item C<:polygon_svg>
+
+=item C<:polygon_text>
+
+=item C<:polygon_threshold>
 
 =head1 SEE ALSO
 

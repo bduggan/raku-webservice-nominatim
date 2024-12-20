@@ -4,7 +4,7 @@
 NAME
 ====
 
-WebService::Nominatim - Raku client for the OpenStreetMap Nominatim API
+WebService::Nominatim - Client for the OpenStreetMap Nominatim API
 
 SYNOPSIS
 ========
@@ -13,19 +13,17 @@ SYNOPSIS
 
     my \n = WebService::Nominatim.new;
 
-    say n.search(query => 'Grand Central Station', :addressdetails).head.<address><road city state>.join(', ');
-    # East 42nd Street, City of New York, New York
+    say n.search('Grand Central Station').first.<name lat lon>;
+    # (Grand Central Terminal 40.75269435 -73.97725295036929)
 
-    say n.search: 'Grand Central Station';
+    my $geo = n.search: '221B Baker Street, London, UK';
+    my $geo = n.search: query => '221B Baker Street, London, UK';
+    my $geo = n.search: query => { street => '221B Baker Street', city => 'London', country => 'UK' };
+    say $geo.head.<lat lon>;
+    # (51.5233879 -0.1582367)
 
-    say n.search: 'Main St', :limit(5);
-
-    say n.search: '221B Baker Street, London, UK';
-    say n.search: query => '221B Baker Street, London, UK';
-    say n.search: query => { street => '221B Baker Street', city => 'London', country => 'UK' };
-
-    say n.search: 'Grand Place, Brussels, Belgium';
-    say n.search('Grand Place, Brussels',:format<geojson>,:raw);
+    say n.search: 'Grand Place, Brussels', :format<geojson>, :raw;
+    {"type":"FeatureCollection", ...
 
 DESCRIPTION
 ===========
@@ -40,25 +38,20 @@ url
 
 The base URL for the Nominatim API. Defaults to `https://nominatim.openstreetmap.org`.
 
-ua
---
-
-The [HTTP::Tiny](https://raku.land/zef:jjatria/HTTP::Tiny) user agent object. Defaults to a new instance of `HTTP::Tiny` with the agent string set to `Raku WebService::Nominatim`.
-
 email
 -----
 
-The email address to use in the `email` query parameter. This is optional, but recommended if you are sending a lot of requests.
+The email address to use in the `email` query parameter. Optional, but recommended if you are sending a lot of requests.
 
 debug
 -----
 
-If set to a true value, the `debug` query parameter will be set to `1` in all requests. In this case, the response will be HTML (not JSON).
+Optionally send send debug => 1 in search requests. Responses will be HTML.
 
 dedupe
 ------
 
-If set to a true value, the `dedupe` query parameter will be set to `1` in search requests.
+Optionally send dedupe => 1 to search request.
 
 METHODS
 =======
@@ -93,20 +86,39 @@ See [https://nominatim.org/release-docs/develop/api/Search/](https://nominatim.o
 
     The format of the response. Defaults to C<jsonv2>.
 
-Other parameters are passed through to the API as query parameters:
+Other parameters -- see [https://nominatim.org/release-docs/develop/api/Search/](https://nominatim.org/release-docs/develop/api/Search/)
 
-    :$layer,
-    :$featureType,
-    Bool :$addressdetails,
-    Int :$limit = 1,
-    Bool :$extratags,
-    Bool :$namedetails,
-    :$accept-language,
-    :$countrycodes,
-    :$exclude_place_ids,
-    :$viewbox, Bool :$bounded,
-    Bool :$polygon_geojson, Bool :$polygon_kml, Bool :$polygon_svg, Bool :$polygon_text,
-    :$polygon_threshold
+  * `:layer`
+
+  * `:featureType`
+
+  * `:addressdetails`
+
+  * `:limit`
+
+  * `:extratags`
+
+  * `namedetails`
+
+  * `:accept-language`
+
+  * `:countrycodes`
+
+  * `:exclude_place_ids`
+
+  * `:viewbox`
+
+  * `:bounded`
+
+  * `:polygon_geojson`
+
+  * `:polygon_kml`
+
+  * `:polygon_svg`
+
+  * `:polygon_text`
+
+  * `:polygon_threshold`
 
 SEE ALSO
 ========
