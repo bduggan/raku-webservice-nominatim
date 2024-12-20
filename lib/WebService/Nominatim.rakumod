@@ -110,7 +110,7 @@ multi method search($query,
 
 =head1 NAME
 
-WebService::Nominatim - Client for the OpenStreetMap Nominatim API
+WebService::Nominatim - Client for the OpenStreetMap Nominatim Geocoding API
 
 =head1 SYNOPSIS
 

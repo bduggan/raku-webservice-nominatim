@@ -4,7 +4,7 @@
 NAME
 ====
 
-WebService::Nominatim - Client for the OpenStreetMap Nominatim API
+WebService::Nominatim - Client for the OpenStreetMap Nominatim Geocoding API
 
 SYNOPSIS
 ========
