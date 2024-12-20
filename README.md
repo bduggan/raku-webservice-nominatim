@@ -23,7 +23,9 @@ SYNOPSIS
     # (51.5233879 -0.1582367)
 
     say n.search: 'Grand Place, Brussels', :format<geojson>, :raw;
-    {"type":"FeatureCollection", ...
+```geojson
+{"type":"FeatureCollection","licence":"Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright","features":[{"type":"Feature","properties":{"place_id":97663568,"osm_type":"way","osm_id":991425177,"place_rank":25,"category":"boundary","type":"protected_area","importance":0.4874302285645721,"addresstype":"protected_area","name":"Grand-Place - Grote Markt","display_name":"Grand-Place - Grote Markt, Quartier du Centre - Centrumwijk, Pentagone - Vijfhoek, Bruxelles - Brussel, Brussel-Hoofdstad - Bruxelles-Capitale, Région de Bruxelles-Capitale - Brussels Hoofdstedelijk Gewest, 1000, België / Belgique / Belgien"},"bbox":[4.3512177,50.8460246,4.3537194,50.8474356],"geometry":{"type": "Point","coordinates": [4.352408060161565, 50.84672905]}}]}
+```
 
 DESCRIPTION
 ===========
