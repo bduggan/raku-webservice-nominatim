@@ -182,7 +182,7 @@ See L<https://nominatim.org/release-docs/develop/api/Search/> for details about 
 
 =item C<:format>
 
-  The format of the response. Defaults to C<jsonv2>.
+  The format of the response. Defaults to jsonv2.  Other options are xml, json, geojson, and geocodejson.
 
 Other parameters -- see L<https://nominatim.org/release-docs/develop/api/Search/>
 
