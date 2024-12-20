@@ -46,7 +46,7 @@ The email address to use in the `email` query parameter. Optional, but recommend
 debug
 -----
 
-Optionally send send debug => 1 in search requests. Responses will be HTML.
+Optionally send debug => 1 in search requests. Responses will be HTML.
 
 dedupe
 ------

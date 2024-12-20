@@ -147,7 +147,7 @@ sending a lot of requests.
 
 =head2 debug
 
-Optionally send send debug => 1 in search requests.  Responses will be HTML.
+Optionally send debug => 1 in search requests.  Responses will be HTML.
 
 =head2 dedupe
 
