@@ -184,7 +184,7 @@ See L<https://nominatim.org/release-docs/develop/api/Search/> for details about 
 
   The format of the response. Defaults to jsonv2.  Other options are xml, json, geojson, and geocodejson.
 
-Other parameters -- see L<https://nominatim.org/release-docs/develop/api/Search/>
+Other parameters:
 
 =item C<:layer>
 
@@ -196,7 +196,7 @@ Other parameters -- see L<https://nominatim.org/release-docs/develop/api/Search/
 
 =item C<:extratags>
 
-=item C<namedetails>
+=item C<:namedetails>
 
 =item C<:accept-language>
 
