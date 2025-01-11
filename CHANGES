@@ -1,9 +1,14 @@
+0.0.4 2025-01-11
+  - return lists from search
+  - doc update
+  - add geojson to docs
+
 0.0.3 2024-12-20
-   Doc update
+  - Doc update
 
 0.0.2 2024-12-20
-   Better tests and docs
+  - Better tests and docs
 
 0.0.1 2024-12-19
-   Initial release
+  - Initial release
 
