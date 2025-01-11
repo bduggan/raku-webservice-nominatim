@@ -103,7 +103,9 @@ multi method search($query,
       }
     }
     my $parse-json = !$raw && (!$format || $format.contains('json'));
-    self.get('/search', :%query, :$parse-json ).list
+    my $got = self.get('/search', :%query, :$parse-json );
+    return $got.list if $got ~~ List;
+    return [ $got ];
 }
 
 =begin pod
@@ -129,6 +131,12 @@ WebService::Nominatim - Client for the OpenStreetMap Nominatim Geocoding API
 
   say n.search: 'Grand Place, Brussels', :format<geojson>, :raw;
   {"type":"FeatureCollection", ... 
+
+```geojson
+
+{"type":"FeatureCollection","licence":"Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright","features":[{"type":"Feature","properties":{"place_id":97663568,"osm_type":"way","osm_id":991425177,"place_rank":25,"category":"boundary","type":"protected_area","importance":0.4874302285645721,"addresstype":"protected_area","name":"Grand-Place - Grote Markt","display_name":"Grand-Place - Grote Markt, Quartier du Centre - Centrumwijk, Pentagone - Vijfhoek, Bruxelles - Brussel, Brussel-Hoofdstad - Bruxelles-Capitale, Région de Bruxelles-Capitale - Brussels Hoofdstedelijk Gewest, 1000, België / Belgique / Belgien"},"bbox":[4.3512177,50.8460246,4.3537194,50.8474356],"geometry":{"type": "Point","coordinates": [4.352408060161565, 50.84672905]}}]}
+
+```
 
 =head1 DESCRIPTION
 
@@ -158,11 +166,14 @@ Optionally send dedupe => 1 to search request.
 =head2 search
 
 Search for a location using either a string search or a structured search. 
+This will always return a list.  The items in the list may be strings or hashes,
+depending on the format (json formats will be parsed into hashes).  Use C<:raw>
+to return strings.
 
 =head3 Usage
 
   $n.search('Grand Central Station');
-  $n.search: 'Main St', :limit(5);
+  say .<display_name> for $n.search: 'Main St', :limit(5);
   $n.search: '221B Baker Street, London, UK';
   $n.search: query => '221B Baker Street, London, UK';
   $n.search: query => { street => '221B Baker Street', city => 'London', country => 'UK' }, limit => 5;
