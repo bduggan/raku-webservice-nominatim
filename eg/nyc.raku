@@ -2,7 +2,6 @@
 
 use WebService::Nominatim;
 use Log::Async;
-use PrettyDump;
 
 logger.send-to: $*ERR;
 

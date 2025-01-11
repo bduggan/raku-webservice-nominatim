@@ -56,7 +56,7 @@ method get($path, :%query, Bool :$parse-json = True) {
   return $res;
 }
 
-multi method search(:$query,|c) {
+multi method search(:$query,|c --> List) {
   self.search($query, |c);
 }
 
@@ -74,7 +74,7 @@ multi method search($query,
      :$viewbox, Bool :$bounded,
      Bool :$polygon_geojson, Bool :$polygon_kml, Bool :$polygon_svg, Bool :$polygon_text,
     :$polygon_threshold,
-     Bool :$raw = False) {
+     Bool :$raw = False --> List) {
 
     my %query = ( :$format,
         :$layer,
@@ -103,7 +103,7 @@ multi method search($query,
       }
     }
     my $parse-json = !$raw && (!$format || $format.contains('json'));
-    self.get('/search', :%query, :$parse-json );
+    self.get('/search', :%query, :$parse-json ).list
 }
 
 =begin pod
