@@ -46,7 +46,7 @@ method get($path, :%query, Bool :$parse-json = True) {
   my $response = $.ua.get($url);
 
   if $response<status> != 200 {
-    fail "Request failed: $response<status> $response<reason>";
+    fail "Request failed: $response<status> $response<reason> " ~ $response<content>.decode;
   }
 
   my $res = $response<content>.decode;
