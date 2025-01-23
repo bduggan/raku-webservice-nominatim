@@ -1,6 +1,6 @@
 #!raku
 
-unit class WebService::Nominatim;
+class WebService::Nominatim {
 
 use HTTP::Tiny;
 use URI::Encode;
@@ -238,3 +238,11 @@ L<https://nominatim.org/release-docs/develop/api/Search/>
 Brian Duggan
 
 =end pod
+
+}
+
+sub EXPORT($name = Nil) {
+  return %( ) without $name;
+  %( $name => WebService::Nominatim.new );
+}
+
