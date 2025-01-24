@@ -1,3 +1,7 @@
+0.0.6 2025-01-24
+    add EXPORT
+    require ssl, better errors
+
 0.0.5 2025-01-11
   - fix lists and document
 
