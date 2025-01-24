@@ -1,0 +1,20 @@
+#!raku
+
+use WebService::Nominatim 'n';
+use HTTP::Tiny;
+
+use Test;
+plan 1;
+
+my $args;
+
+HTTP::Tiny.^find_method('get').wrap:
+  -> |args {
+    $args = args;
+    { content => 'hi'.encode, status => 200 }
+};
+
+n.search('Eiffel Tower');
+
+like $args[1], /Eiffel/, 'Eiffel is in the url';
+

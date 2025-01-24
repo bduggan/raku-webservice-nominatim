@@ -14,6 +14,7 @@ has $.ua = HTTP::Tiny.new(agent => 'Raku WebService::Nominatim');
 has $.email;
 has $.debug;
 has $.dedupe;
+has $.logger = logger;
 
 subset Formats of Str where <xml json jsonv2 geojson geocodejson>.any;
 subset Layers of Str where <address poi railway natural manmade>.any;
@@ -161,6 +162,20 @@ Optionally send debug => 1 in search requests.  Responses will be HTML.
 
 Optionally send dedupe => 1 to search request.
 
+=head1 EXPORTS
+
+If an argument is given to the module, it is assumed to be a name
+and the module creates a new C<WebService::Nominatim> object.
+Also "-debug" will send debug output to stderr.  These are equivalent:
+
+  use WebService::Nominatim 'nom', '-debug';
+
+and
+
+  use WebService::Nominatim;;
+  my \nom = WebService::Nominatim.new;
+  nom.logger.send-to: $*ERR;
+
 =head1 METHODS
 
 =head2 search
@@ -241,8 +256,9 @@ Brian Duggan
 
 }
 
-sub EXPORT($name = Nil) {
+sub EXPORT($name = Nil, *@args) {
   return %( ) without $name;
-  %( $name => WebService::Nominatim.new );
+  my $obj = WebService::Nominatim.new;
+  $obj.logger.send-to: $*ERR if @args.first: * eq '-debug';
+  %( $name => $obj );
 }
-

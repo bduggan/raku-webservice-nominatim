@@ -1,11 +1,6 @@
 #!raku
 
-use WebService::Nominatim;
-use Log::Async;
-
-logger.send-to: $*ERR;
-
-my \n = WebService::Nominatim.new;
+use WebService::Nominatim 'n', '-debug';
 
 say n.search('Grand Central Station').first.<name lat lon>;
 

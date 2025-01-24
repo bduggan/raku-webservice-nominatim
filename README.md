@@ -59,6 +59,19 @@ dedupe
 
 Optionally send dedupe => 1 to search request.
 
+EXPORTS
+=======
+
+If an argument is given to the module, it is assumed to be a name and the module creates a new `WebService::Nominatim` object. Also "-debug" will send debug output to stderr. These are equivalent:
+
+    use WebService::Nominatim 'nom', '-debug';
+
+and
+
+    use WebService::Nominatim;;
+    my \nom = WebService::Nominatim.new;
+    nom.logger.send-to: $*ERR;
+
 METHODS
 =======
 
