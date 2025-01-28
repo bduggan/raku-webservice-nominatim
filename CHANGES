@@ -1,3 +1,8 @@
+0.0.7 2025-01-28
+   - lookup
+   - status
+   - -debug
+
 0.0.6 2025-01-24
     add EXPORT
     require ssl, better errors
