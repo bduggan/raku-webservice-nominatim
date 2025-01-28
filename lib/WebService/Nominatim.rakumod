@@ -109,6 +109,75 @@ multi method search($query,
     return [ $got ];
 }
 
+multi method lookup(
+  :@node-ids,
+  :@way-ids,
+  :@relation-ids,
+  :$node-id,
+  :$way-id,
+  :$relation-id,
+  :$format,
+  Bool :$addressdetails,
+  Bool :$extratags,
+  Bool :$accept-language,
+  Bool :$polygon_geojson,
+  Bool :$polygon_kml,
+  Bool :$polygon_svg,
+  Bool :$polygon_text,
+  :$polygon_threshold,
+
+  Bool :$raw = False --> List) {
+  my @ids =  |( @node-ids.map: { "N" ~ $_ } ),
+             |( @way-ids.map: { "W" ~ $_ } ),
+             |( @relation-ids.map: { "R" ~ $_ } );
+  @ids.push: "N$node-id" if $node-id;
+  @ids.push: "W$way-id" if $way-id;
+  @ids.push: "R$relation-id" if $relation-id;
+  self.lookup(@ids.join(','),
+  :$format,
+  :$raw, :$addressdetails, :$extratags, :$accept-language,
+  :$polygon_geojson, :$polygon_kml, :$polygon_svg, :$polygon_text,
+  :$polygon_threshold);
+}
+
+
+multi method lookup($osm_ids,
+  :$format,
+  Bool :$raw = False,
+  Bool :$addressdetails,
+  Bool :$extratags,
+  Bool :$accept-language,
+  Bool :$polygon_geojson,
+  Bool :$polygon_kml,
+  Bool :$polygon_svg,
+  Bool :$polygon_text,
+  :$polygon_threshold
+  --> List) {
+  my $parse-json = !$raw && (!$format || $format.contains('json'));
+  my %query = (
+    :$osm_ids,
+    :$format
+    :$addressdetails,
+    :$extratags,
+    :$accept-language,
+    :$polygon_geojson,
+    :$polygon_kml,
+    :$polygon_svg,
+    :$polygon_text,
+    :$polygon_threshold
+  );
+
+  my $got = self.get("/lookup", :%query, :$parse-json);
+
+  return $got.list if $got ~~ List;
+  return [ $got ];
+}
+
+method status {
+  my $got = self.get('/status', query => %( :format<json> ), :parse-json);
+  return $got;
+}
+
 =begin pod
 
 =head1 NAME
@@ -142,6 +211,24 @@ WebService::Nominatim - Client for the OpenStreetMap Nominatim Geocoding API
 =head1 DESCRIPTION
 
 This is an interface to OpenStreetMap's Nominatim Geocoding API, L<https://nominatim.org|https://nominatim.org>.
+
+=head1 EXPORTS
+
+  use WebService::Nominatim;
+  my \n = WebService::Nominatim.new;
+
+Equivalent to:
+
+  use WebService::Nominatim 'n';
+
+Add debug output:
+
+  use WebService::Nominatim 'n' '-debug';
+
+If an argument is provided, a new instance will be returned.
+If C<-debug> is provided, the instance will send logs to stderr.
+Note this is different from the C<debug> attribute, which gets debug
+information from the server.
 
 =head1 ATTRIBUTES
 
@@ -243,6 +330,29 @@ Other parameters:
 =item C<:polygon_text>
 
 =item C<:polygon_threshold>
+
+=head2 lookup
+
+Look up an object.
+
+  say n.lookup('R1316770', :format<geojson>);
+  say n.lookup(relation-id => '1316770', :format<geojson>);
+  say n.lookup(relation-ids => [ 1316770, ], :format<geojson>, :polygon_geojson);
+
+=head3 Parameters
+
+Many of the same parameters as C<search> are available.
+
+Additionally, C<node-ids>, C<way-ids>, and C<relation-ids> can be used to look up multiple objects.
+And C<node-id>, C<way-id>, and C<relation-id> can be used to look up a single object.
+
+See L<https://nominatim.org/release-docs/develop/api/Lookup/> for more details.
+
+=head2 status
+
+Get the status of the Nominatim server.
+
+  say n.status;
 
 =head1 SEE ALSO
 

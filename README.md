@@ -36,6 +36,22 @@ DESCRIPTION
 
 This is an interface to OpenStreetMap's Nominatim Geocoding API, [https://nominatim.org](https://nominatim.org).
 
+EXPORTS
+=======
+
+    use WebService::Nominatim;
+    my \n = WebService::Nominatim.new;
+
+Equivalent to:
+
+    use WebService::Nominatim 'n';
+
+Add debug output:
+
+    use WebService::Nominatim 'n' '-debug';
+
+If an argument is provided, a new instance will be returned. If `-debug` is provided, the instance will send logs to stderr. Note this is different from the `debug` attribute, which gets debug information from the server.
+
 ATTRIBUTES
 ==========
 
@@ -138,6 +154,30 @@ Other parameters:
   * `:polygon_text`
 
   * `:polygon_threshold`
+
+lookup
+------
+
+Look up an object.
+
+    say n.lookup('R1316770', :format<geojson>);
+    say n.lookup(relation-id => '1316770', :format<geojson>);
+    say n.lookup(relation-ids => [ 1316770, ], :format<geojson>, :polygon_geojson);
+
+### Parameters
+
+Many of the same parameters as `search` are available.
+
+Additionally, `node-ids`, `way-ids`, and `relation-ids` can be used to look up multiple objects. And `node-id`, `way-id`, and `relation-id` can be used to look up a single object.
+
+See [https://nominatim.org/release-docs/develop/api/Lookup/](https://nominatim.org/release-docs/develop/api/Lookup/) for more details.
+
+status
+------
+
+Get the status of the Nominatim server.
+
+    say n.status;
 
 SEE ALSO
 ========
