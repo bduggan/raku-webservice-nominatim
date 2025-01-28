@@ -1,0 +1,26 @@
+#!raku
+
+use WebService::Nominatim;
+use HTTP::Tiny;
+
+use Test;
+plan 3;
+
+my \n = WebService::Nominatim.new;
+
+my $args;
+
+HTTP::Tiny.^find_method('get').wrap:
+  -> |args {
+    $args = args;
+    { content => 'hi'.encode, status => 200 }
+};
+
+n.lookup(node-id => 123);
+
+like $args[1], /'osm_ids=N123'/, 'sent args';
+
+ok n.status, 'status is true';
+
+like $args[1], /'format=json'/, 'format is json';
+
